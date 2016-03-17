@@ -1,11 +1,18 @@
+## Variables
+
+BINDIR=./bin
+SRCDIR=./src
+
+## Rules
+
 # Produce the kernel executable
-kernel: entrypoint main
-	ld -m elf_i386 -T link.ld -o kernel kasm.o kc.o
+kernel: entrypoint main ${SRCDIR}/link.ld
+	ld -m elf_i386 -T ${SRCDIR}/link.ld -o ${BINDIR}/kernel ${BINDIR}/kasm.o ${BINDIR}/kc.o
 
 # Produce the entrypoint for the bootload now what to launch at boot
-entrypoint: kernel.asm
-	nasm -f elf32 kernel.asm -o kasm.o
+entrypoint: ${SRCDIR}/kernel.asm
+	nasm -f elf32 ${SRCDIR}/kernel.asm -o ${BINDIR}/kasm.o
 
 # Produce the main executable
-main: kernel.c
-	gcc -m32 -c kernel.c -o kc.o
+main: ${SRCDIR}/kernel.c
+	gcc -m32 -c ${SRCDIR}/kernel.c -o ${BINDIR}/kc.o
