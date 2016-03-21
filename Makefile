@@ -5,6 +5,8 @@ SRCDIR=./src
 
 ## Rules
 
+all: kernel
+
 # Produce the kernel executable
 kernel: entrypoint main ${SRCDIR}/link.ld
 	ld -m elf_i386 -T ${SRCDIR}/link.ld -o ${BINDIR}/kernel ${BINDIR}/kasm.o ${BINDIR}/kc.o
@@ -16,3 +18,13 @@ entrypoint: ${SRCDIR}/kernel.asm
 # Produce the main executable
 main: ${SRCDIR}/kernel.c
 	gcc -m32 -c ${SRCDIR}/kernel.c -o ${BINDIR}/kc.o
+
+## Clean up the project
+
+.PHONY: clean mrproper
+
+clean:
+	rm -f ${BINDIR}/*.o
+
+mrproper: clean
+	rm ${BINDIR}/kernel
