@@ -23,19 +23,19 @@ To build this project you need some tools :
 But it will become really exhausting while the project is getting bigger.*
 
 *Note also that using qemu is not necessary but it is a good and lightweight solution
-to test your kernel. 
-You can use another virtualizer or even test it directly on a computer i
+to test your kernel.
+You can use another virtualizer or even test it directly on a computer
 (as long as you know what you are doing).*
 
 ## Build
 
 The following command will build a kernel executable called **kernel**.
 
-```bash 
+```bash
 
-make kernel 
+make kernel
 
-``` 
+```
 
 
 ## Run in Qemu
