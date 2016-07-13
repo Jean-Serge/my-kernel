@@ -3,13 +3,18 @@
 BINDIR=./bin
 SRCDIR=./src
 
+KERNEL=${BINDIR}/kernel
+
 ## Rules
 
 all: kernel
 
+qemu: all
+	qemu-system-x86_64 --kernel ${KERNEL}
+
 # Produce the kernel executable
 kernel: entrypoint main ${SRCDIR}/link.ld
-	ld -m elf_i386 -T ${SRCDIR}/link.ld -o ${BINDIR}/kernel ${BINDIR}/kasm.o ${BINDIR}/kc.o
+	ld -m elf_i386 -T ${SRCDIR}/link.ld -o ${KERNEL} ${BINDIR}/kasm.o ${BINDIR}/kc.o
 
 # Produce the entrypoint for the bootload now what to launch at boot
 entrypoint: ${SRCDIR}/kernel.asm
