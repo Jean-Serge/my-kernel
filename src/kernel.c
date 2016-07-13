@@ -15,7 +15,7 @@ void clear_screen()
   /* Each column contains 2 bytes of data : the char to print and their colors */
   unsigned const int nb_byte_total = 2 * NB_LINES_SCREEN * NB_CHAR_PER_LINE;
 
-  for(cpt = 0 ; cpt < nb_byte_total  ; cpt += 2)
+  for(cpt = 0 ; cpt < nb_byte_total ; cpt += 2)
   {
     *(video_ptr + cpt)     = ' ';    /* Write a blank character */
     *(video_ptr + cpt + 1) = 0xF0;   /* Write it black on white screen */
@@ -40,6 +40,10 @@ void write_string_on_screen(char *text)
   }
 }
 
+/**
+ * This function is the entrypoint of the built kernel.
+ * In this version, it only print a message on the screen.
+ */
 void kmain(void)
 {
   clear_screen();
