@@ -6,7 +6,7 @@ It starts following [this site](http://arjunsreedharan.org/post/82710718100/kern
 
 ## Current Version
 
-This version allow to build a simple bootable 32-bit kernel that will print a phrase (here it is *Welcome to my Kernel*).
+This version allow to build a simple bootable 32-bit kernel that will print a phrase (here it is *Welcome to my Kernel*) and allow keyboard input.
 
 ## Requirements
 
@@ -32,9 +32,7 @@ You can use another virtualizer or even test it directly on a computer
 The following command will build a kernel executable called **kernel**.
 
 ```bash
-
-make kernel
-
+make
 ```
 
 
@@ -51,4 +49,6 @@ qemu-system-i386 -kernel kernel
 ## Links
 
 + http://arjunsreedharan.org/post/82710718100/kernel-101-lets-write-a-kernel
++ http://arjunsreedharan.org/post/99370248137/kernel-201-lets-write-a-kernel-with-keyboard
 + https://github.com/arjun024/mkernel/
++ http://wiki.osdev.org
