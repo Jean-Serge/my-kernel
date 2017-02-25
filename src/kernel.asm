@@ -14,7 +14,39 @@ section .text               ; Begin the code (text) section
 
 global start                ; NASM directive to set the start symbol as global
                             ; It is useful for linker to know where the start symbol is
+global read_port
+global write_port
+global load_idt
+global keyboard_handler
+
 extern kmain                ; Declare kmain as an external function (declared in kernel.c)
+extern keyboard_handler_main
+
+; Allow to read byte from the given port
+read_port:
+  mov edx, [esp + 4]
+  in al, dx ;al is the lower 8 bits of eax
+            ;dx is the lower 16 bits of edx
+  ret
+
+; Allow to write a byte to the given port
+write_port:
+  mov   edx, [esp + 4]
+  mov   al, [esp + 4 + 4]
+  out   dx, al
+  ret
+
+; load the IDT table
+load_idt:
+  mov edx, [esp + 4]
+  lidt [edx]
+  sti          ;turn on interrupts
+  ret
+
+; declaring handler for Keyboard IRQs
+keyboard_handler:
+  call    keyboard_handler_main
+  iretd
 
 start:                      ; Start function
   cli                       ; Disable interruptions (CLear Interrups)
