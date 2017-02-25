@@ -27,6 +27,10 @@ to test your kernel.
 You can use another virtualizer or even test it directly on a computer
 (as long as you know what you are doing).*
 
+### OSX
+
+On OSX you can use the shell script to build a cross-compiler for this project.
+
 ## Build
 
 The following command will build a kernel executable called **kernel**.
