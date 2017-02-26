@@ -4,10 +4,11 @@
 #define H_VGA
 
 #include "types.h"
+#include "stdlib.h"
 
 #define NB_LINES_SCREEN 25
 #define NB_CHAR_PER_LINE 80
-#define NB_BYTES_TOTAL (NB_CHAR_PER_LINE * NB_CHAR_PER_LINE)
+#define NB_BYTES_TOTAL (NB_CHAR_PER_LINE * NB_LINES_SCREEN)
 
 extern void clear_screen();
 extern void write_char(char c);
