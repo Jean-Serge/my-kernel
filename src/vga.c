@@ -18,6 +18,20 @@ static inline uint16_t vga_entry(unsigned char c, uint8_t color) {
 }
 
 /**
+ * Clear only the last line of the screen (used for scrolling purpose).
+ */
+static void clear_last_line()
+{
+  size_t cpt;
+
+  for (cpt = NB_BYTES_TOTAL - NB_CHAR_PER_LINE ; cpt < NB_BYTES_TOTAL ; cpt++) {
+    *(video_ptr + cpt) = vga_entry(' ', vga_entry_color());
+  }
+
+  cursor_position -= NB_CHAR_PER_LINE;
+}
+
+/**
  *  This function clear the current screen by writing blank characters on it.
  */
 void clear_screen()
@@ -31,15 +45,23 @@ void clear_screen()
   }
 }
 
+/**
+ * Write the given char at the current cursor position on the screen.
+ */
 void write_char(char c)
 {
   if (c == '\n') {
     cursor_position += NB_CHAR_PER_LINE - cursor_position % NB_CHAR_PER_LINE;
-    return;
+  } else {
+    *(video_ptr + cursor_position) = vga_entry(c, vga_entry_color());
+    cursor_position ++;
   }
 
-  *(video_ptr + cursor_position) = vga_entry(c, vga_entry_color());
-  cursor_position ++;
+  /* Scrolling */
+  if (cursor_position >= NB_BYTES_TOTAL) {
+    memmove(video_ptr, video_ptr + NB_CHAR_PER_LINE, 2 * (NB_BYTES_TOTAL - NB_CHAR_PER_LINE));
+    clear_last_line();
+  }
 }
 
 /**

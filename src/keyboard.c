@@ -66,14 +66,18 @@ void idt_init(void)
   load_idt(idt_ptr);
 }
 
+/**
+ * This function is call each time a keyboard IRQ is raise.
+ */
 void keyboard_handler_main(void) {
   unsigned char status;
   char keycode;
 
-  /* write EOI */
+  /* Send EOI to reactivate IRQs */
   write_port(0x20, 0x20);
 
   status = read_port(KEYBOARD_STATUS_PORT);
+
   /* Lowest bit of status will be set if buffer is not empty */
   if (status & 0x01) {
     keycode = read_port(KEYBOARD_DATA_PORT);
