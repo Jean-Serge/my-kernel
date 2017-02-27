@@ -87,3 +87,8 @@ char * itoa(int num, int base)
 
   return str;
 }
+
+void switch_flag(uint8_t * flag)
+{
+  *flag = *flag == 0 ? 1 : 0;
+}

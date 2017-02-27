@@ -4,8 +4,8 @@
 #include "types.h"
 
 extern void           memmove(void *dest, void *src, size_t n);
-extern uint8_t        is_letter(unsigned char c);
 extern unsigned char  uppercase(unsigned char c);
 extern char *         itoa(int num, int base);
+extern void           switch_flag(uint8_t * flag);
 
 #endif
