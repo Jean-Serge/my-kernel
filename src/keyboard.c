@@ -71,7 +71,7 @@ void idt_init(void)
  * This function is call each time a keyboard IRQ is raise.
  */
 void keyboard_handler_main(void) {
-  static uint8_t caps_lock = 1;
+  static uint8_t caps_lock = 0;
   unsigned char status;
   unsigned char keycode, c;
 
@@ -84,24 +84,23 @@ void keyboard_handler_main(void) {
   if (status & 0x01) {
     keycode = read_port(KEYBOARD_DATA_PORT);
 
-    if (keycode == 0x2A) {
-      caps_lock = 1;
-      // write_string(itoa((int)caps_lock, 10));
-      return;
+    switch (keycode) {
+      case 0x2A: /* Left shift pressed    */
+      case 0xAA: /* Left shift released   */
+      case 0x36: /* Right shift pressed   */
+      case 0xB6: /* Right shift released  */
+      case 0xBA: /* Caps Lock released    */
+        switch_flag(&caps_lock);
+        break;
+      default:
+        c = keyboard_map[(unsigned char) keycode];
+        if (c != 0) {
+          if (caps_lock) {
+            c = uppercase(c);
+          }
+          write_char(c);
+        }
+        break;
     }
-
-    if (keycode == 0xAA) {
-      caps_lock = 0;
-      // write_string(itoa((int)caps_lock, 10));
-      return;
-    }
-
-    c = keyboard_map[(unsigned char) keycode];
-
-    if (caps_lock) {
-      c = uppercase(c);
-    }
-
-    write_char(c);
   }
 }
