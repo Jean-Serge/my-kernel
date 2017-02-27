@@ -46,6 +46,15 @@ void clear_screen()
 }
 
 /**
+ * This function remove the last wirtten character.
+ */
+void remove_last_char()
+{
+  *(video_ptr + cursor_position) = vga_entry(' ', vga_entry_color());
+  while(*(video_ptr + --cursor_position) == vga_entry(' ', vga_entry_color()));
+}
+
+/**
  * Write the given char at the current cursor position on the screen.
  */
 void write_char(char c)
@@ -53,8 +62,7 @@ void write_char(char c)
   if (c == '\n') {
     cursor_position += NB_CHAR_PER_LINE - cursor_position % NB_CHAR_PER_LINE;
   } else {
-    *(video_ptr + cursor_position) = vga_entry(c, vga_entry_color());
-    cursor_position ++;
+    *(video_ptr + cursor_position++) = vga_entry(c, vga_entry_color());
   }
 
   /* Scrolling */

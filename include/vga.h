@@ -11,6 +11,7 @@
 #define NB_BYTES_TOTAL (NB_CHAR_PER_LINE * NB_LINES_SCREEN)
 
 extern void clear_screen();
+extern void remove_last_char();
 extern void write_char(char c);
 extern void write_string(char * text);
 
