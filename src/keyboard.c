@@ -1,4 +1,5 @@
 #include "vga.h"
+#include "stdlib.h"
 #include "keyboard.h"
 #include "keyboard_map.h"
 
@@ -70,8 +71,9 @@ void idt_init(void)
  * This function is call each time a keyboard IRQ is raise.
  */
 void keyboard_handler_main(void) {
+  static uint8_t caps_lock = 1;
   unsigned char status;
-  char keycode;
+  unsigned char keycode, c;
 
   /* Send EOI to reactivate IRQs */
   write_port(0x20, 0x20);
@@ -81,10 +83,25 @@ void keyboard_handler_main(void) {
   /* Lowest bit of status will be set if buffer is not empty */
   if (status & 0x01) {
     keycode = read_port(KEYBOARD_DATA_PORT);
-    if(keycode < 0)
+
+    if (keycode == 0x2A) {
+      caps_lock = 1;
+      // write_string(itoa((int)caps_lock, 10));
       return;
+    }
 
-    write_char(keyboard_map[(unsigned char) keycode]);
+    if (keycode == 0xAA) {
+      caps_lock = 0;
+      // write_string(itoa((int)caps_lock, 10));
+      return;
+    }
+
+    c = keyboard_map[(unsigned char) keycode];
+
+    if (caps_lock) {
+      c = uppercase(c);
+    }
+
+    write_char(c);
   }
-
 }
