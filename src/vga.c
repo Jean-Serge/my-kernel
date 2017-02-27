@@ -74,9 +74,8 @@ void write_string(char * text)
   cpt = 0;
 
   /* We go through the text to print */
-  while ((c = *(text + cpt)) != '\0')
+  while ((c = *(text + cpt++)) != '\0')
   {
     write_char(c);
-    cpt ++;
   }
 }
