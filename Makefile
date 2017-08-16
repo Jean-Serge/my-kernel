@@ -35,11 +35,14 @@ vga: ${SRCDIR}/vga.c ${INCDIR}/vga.h
 keyboard: ${SRCDIR}/keyboard.c ${INCDIR}/keyboard.h
 	${CC} ${CFLAGS} ${INCLUDE} -c ${SRCDIR}/keyboard.c -o ${BINDIR}/keyboard.o
 
+string: ${SRCDIR}/string.c ${INCDIR}/string.h
+	${CC} ${CFLAGS} ${INCLUDE} -c ${SRCDIR}/string.c -o ${BINDIR}/string.o
+
 stdlib: ${SRCDIR}/stdlib.c ${INCDIR}/stdlib.h
 	${CC} ${CFLAGS} ${INCLUDE} -c ${SRCDIR}/stdlib.c -o ${BINDIR}/stdlib.o
 
 # Produce the main executable
-main: stdlib keyboard vga ${SRCDIR}/kernel.c
+main: string stdlib keyboard vga ${SRCDIR}/kernel.c
 	${CC} ${CFLAGS} ${INCLUDE} -c ${SRCDIR}/kernel.c -o ${BINDIR}/kc.o
 
 ## Clean up the project
