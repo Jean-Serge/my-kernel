@@ -92,6 +92,9 @@ void keyboard_handler_main(void) {
       case 0xBA: /* Caps Lock released    */
         switch_flag(&caps_lock);
         break;
+      case 0x0E:
+        remove_last_char();
+        return;
       default:
         c = keyboard_map[(unsigned char) keycode];
         if (c != 0) {
